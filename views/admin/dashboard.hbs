@@ -1,0 +1,505 @@
+    
+    
+    <header style="background-color: #161515;">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+              <a class="navbar-brand landfont" style="color: white;" href="/admin/dashboard">LJ GAMING</a>
+              <button class="navbar-toggler" style="background-color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-left: 19rem;">
+                  <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="landfont dropdown-toggle border-0 mt-2" style="color: #FAC300;background-color: #161515;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Offers
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item landfont" href="/admin/view-category-offers">Category Offers</a></li>
+                          <li><a class="dropdown-item landfont" href="/admin/view-coupenOffers">Coupon Offers</a></li>
+                        </ul>
+                      </div>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewproduct">ALL PRODUCTS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewusers">ALL CUSTOMERS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/category">CATEGORY</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/orders">ORDERS</a>
+                  </li>
+                </ul>
+
+                <form class="d-flex justify-content-end">
+                  <a href="/admin/adminlogout" class="btn btn-danger landfont rounded-pill">LOGOUT</a>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+<section class="container">
+          <section style="padding-bottom: 1rem;">
+    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
+    <div class="bg-light rounded  p-4" style="display: flex;">
+    <i class="fa fa-chart-bar fa-3x"></i>
+    <div class="ms-3">
+      <p class="mb-2">Total Sales</p>
+      <h6 class="mb-0">₹{{total}}</h6>
+    </div>
+    </div>
+  <div
+    class="bg-light rounded p-4 d-flex">
+    <i class="fa fa-chart-bar fa-3x"></i>
+    <div class="ms-3">
+      <p class="mb-2">Total no. of sales</p>
+      <h6 class="mb-0">{{no}}</h6>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="container-flex pt-4 px-4">
+        <div style="display: flex;flex-wrap: wrap;">
+          <div class="bg-light rounded col-12 col-sm-6 col-lg-6 mt-5 "
+            >
+            <h6 class="mb-4">Overall Sales</h6>
+            <canvas id="line-chart"></canvas>
+          </div>
+          <div class="bg-light rounded col-12 col-sm-6 col-lg-6 mt-5 "
+             style="width:20rem;margin-left:10rem;">
+            <h6 class="mb-4">Payment Method</h6>
+            <canvas id="pie-chart"></canvas>
+          </div>
+          
+          
+        </div>  
+      <div style="display: flex;flex-wrap: wrap;">  
+        <div
+          class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6 "
+          >
+          <h6 class="mb-4">Monthly sales</h6>
+          <canvas id="monthly"></canvas>
+        </div>
+
+       <div
+          class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+          <h6 class="mb-4">weekly sales</h6>
+          <canvas id="weekly"></canvas>
+        </div>
+        </div>
+  <div style="display: flex;flex-wrap: wrap;">
+    <div class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+          <h6 class="mb-4">daily sales</h6>
+          <canvas id="daily"></canvas>
+        </div>
+            <div
+          class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+          <h6 class="mb-4">yearly sales</h6>
+          <canvas id="yearly"></canvas>
+        </div>
+    </div> 
+    <div style="display: flex;flex-wrap: wrap;">
+      <div class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+        <h4>MOST PURCHASED</h4>
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">image</th>
+      <th scope="col">quantity</th>
+      <th scope="col">Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each most}}
+    <tr>
+      <td><img style="width:3rem;" src="/productimage/{{this._id}}.jpg" alt=""></td>
+      <td>{{this.sum}}</td>
+      <td>{{this.name}}</td>
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+</div> 
+<div class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+  <h4>LEAST PURCHASED</h4>
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each min}}
+    <tr>
+      <td><img style="width:3rem;" src="/productimage/{{this._id}}.jpg" alt=""></td>
+      <td>{{this.sum}}</td>
+      <td>{{this.name}}</td>
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+</div> 
+
+    </div>   
+
+
+       <div style="display: flex;flex-wrap: wrap;">
+      <div class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+        <h4>LATEST SIGNUP's</h4>
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">NAME</th>
+      <th scope="col">EMAIL</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each user}}
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+</div> 
+<div class="bg-light rounded p-4 col-12 col-sm-6 col-lg-6">
+  <h4>LATEST ORDERS</h4>
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ORDER NAME</th>
+      <th scope="col">QUANTITY</th>
+      <th scope="col">TOTAL AMOUNT</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each latestorder}}
+    <tr>
+      {{#each products}}
+      <td>{{this.productName}}</td>
+      <td>{{this.quantity}}</td>
+      {{/each}}
+      <td>{{this.totalAmount}}</td>
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+</div> 
+
+    </div>   
+
+
+
+      </div>
+    </div>
+
+ 
+
+  
+</section>
+</section>
+<script src="/javascripts/chart.min.js"></script>
+<script>
+
+
+    $(window).on('load',function() {
+   let money = []
+    let date = []
+    let month = []
+    let monthMoney =[]
+  let week =[]
+  let wmoney=[]
+  let day=[]
+  let dmoney  =[]
+  let year = []
+  let ymoney= []
+  let pai=[]
+  let raz=0
+  let pal=0
+  let cod=0
+  $.ajax({
+        url:'/admin/get-order-details',
+        method:'get',
+        success:(response)=>{
+
+        
+          response.forEach(data => {
+            if(data.status == 'Delivered'){
+        date.push((data.Date).split('T')[0])
+        money.push(data.totalAmount)
+            }
+        });
+       date.reverse()
+       money.reverse()
+         
+        }
+
+    
+  });
+  $.ajax({
+        url:'/admin/stats',
+        method:'get',
+        success:(response)=>{
+
+         response.forEach(data=>{
+           
+           switch(data._id)
+           {
+            case 1 : month.push("Jan")
+                     break;
+                    case 2 : month.push("Feb")
+                     break;
+                     case 3 : month.push("Mar")
+                     break;
+                     case 4 : month.push("Apr")
+                     break;
+                     case 5 : month.push("May")
+                     break;
+                     case 6 : month.push("Jun")
+                     break;
+                     case 7 : month.push("July")
+                     break;
+                     case 8 : month.push("Aug")
+                     break;
+                     case 9 : month.push("Sep")
+                     break;
+                     case 10 : month.push("Oct")
+                     break;
+                     case 11: month.push("Nov")
+                     break;
+                     case 12: month.push("Dec")
+                     break;
+           }
+          
+            monthMoney.push(data.total)
+
+         })
+         month.reverse()
+         monthMoney.reverse()
+        }
+
+    
+  });
+   $.ajax({
+        url:'/admin/stats2',
+        method:'get',
+        success:(response)=>{
+
+            
+        
+          response.forEach(data => {
+        week.push(data._id)
+        wmoney.push(data.total)
+        });
+       week.reverse()
+       wmoney.reverse()
+         
+        }
+
+    
+  });
+     $.ajax({
+        url:'/admin/stats3',
+        method:'get',
+        success:(response)=>{
+
+            
+        
+          response.forEach(data => {
+        day.push(data._id)
+        dmoney.push(data.total)
+        });
+       day.reverse()
+       dmoney.reverse()
+         
+        }
+
+    
+  });
+   $.ajax({
+        url:'/admin/stats4',
+        method:'get',
+        success:(response)=>{
+
+            
+        
+          response.forEach(data => {
+        year.push(data._id)
+        ymoney.push(data.total)
+        });
+       year.reverse()
+       ymoney.reverse()
+         
+        }
+
+    
+  });
+
+    $.ajax({
+        url:'/admin/piechart',
+        method:'get',
+        success:(response)=>{
+      
+         cod = response.cod
+         raz=response.raz
+         pal=response.pal
+        console.log(cod,raz,pal)
+          //response.forEach(data => {
+        //ymoney.push(data)
+        //});
+       
+        }
+
+    
+  });
+
+
+  setTimeout(()=>{
+
+ var ctx3 = $("#line-chart").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "line",
+         data: {
+             labels: date,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: money
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+
+
+   setTimeout(()=>{
+
+ var ctx3 = $("#pie-chart").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "pie",
+         data: {
+             labels:['COD','RAZORPAY','PAYPAL'],
+             datasets: [{
+                 label: "Sales",
+                 fill: true,
+                 backgroundColor: ["#3f37c9","#ffb703","#d90429"],
+                 data: [cod,raz,pal],
+                  
+
+             }]
+         },
+         options: {
+             responsive: true,
+             //maintainAspectRatio:false
+         }
+     });
+  },300)
+
+  
+      setTimeout(()=>{
+
+ var ctx3 = $("#monthly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "line",
+         data: {
+             labels: month,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: monthMoney,
+                 tension: 0.1
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+    setTimeout(()=>{
+
+ var ctx3 = $("#weekly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: week,
+             datasets: [{
+                 label: "Sales (x: th week)",
+                 fill: false,
+                 backgroundColor: ["#ffb703","#c32f27"],
+                 data: wmoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+    setTimeout(()=>{
+
+ var ctx3 = $("#daily").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: day,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: dmoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+   setTimeout(()=>{
+
+ var ctx3 = $("#yearly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: year,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: ymoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+
+
+
+    })
+
+   
+   
+       
+  
+</script> 
+

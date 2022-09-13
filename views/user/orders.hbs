@@ -1,0 +1,75 @@
+<div class="container mt-5 ">
+ 
+  {{#if orders}}
+<table class="table table-dark table-striped ">
+  <thead style="background-color: white;">
+    <tr >
+      <th scope="col" class="landfont">PRODUCTS</th>
+      <th scope="col" class="landfont">ORDERED ON</th>
+ 
+      <th scope="col" class="landfont">DETAILS</th>
+      <th scope="col" class="landfont">STATUS</th>
+      <th scope="col" class="landfont">CANCEL</th>
+    </tr>
+  </thead>
+  <tbody >
+    {{#each orders}}
+    <tr >
+   
+      <td><ul>{{#each products}}<li style="margin-bottom: 10px;font-family:;" class="landfont" ><img style="width: 50px;height: 50px;" src="/productimage/{{this.item}}.jpg" alt=""><a href="/viewproducts/{{this.item}}"> {{this.productName}}</a> </li>{{/each}}</ul></td>
+      
+      <td class="landfont">{{this.date}}</td>
+      <td><div class="btn-group dropend">
+        <button type="button" class="btn btn-primary landfont">
+          Details
+        </button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropend</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>Orderd By:<br>
+           {{this.deliveryDetails.name}} <br>
+           {{this.deliveryDetails.mobile}}</li>
+
+           <li>
+            Total Amount:{{this.totalAmount}}
+           </li>
+           <li>Payment:{{this.paymentMethod}}</li>
+        </ul>
+      </div></td>
+      <td id="status{{this._id}}" class="landfont">{{this.status}}</td>
+      {{#ifCond this.status 'Delivered'}}
+      <td class="landfont" style="color: green;">Order Delivered Successfully</td>
+      {{else}}<td><button onclick="changeStatus('{{this._id}}')"class="landfont">CANCEL ORDER</button></td>
+      {{/ifCond}}
+      
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+ <div style="display: flex; justify-content: center;">
+    <img src="https://cdn.dribbble.com/users/1168645/screenshots/3152485/no-orders_2x.png" alt="">
+  </div>
+  {{/if}}
+</div>
+<script>
+  function changeStatus(id){
+    let status = $('#status'+id).val()
+    if (!status){
+        status = "Waiting for cancel approval"
+        $('#status'+id).html(status)
+    } 
+    $.ajax({
+        url:'/admin/set-status',
+        data:{
+            status:status,
+            orderId:id
+        },
+        method:'post',
+        success:(response)=>{
+           
+        }
+    })
+  }
+ </script>

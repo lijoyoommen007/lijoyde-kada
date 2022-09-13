@@ -1,0 +1,110 @@
+<body style="background-color: #161515;">
+    <header >
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+              <a class="navbar-brand landfont" style="color: white;" href="/admin/dashboard">LJ GAMING</a>
+              <button class="navbar-toggler" style="background-color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-left: 19rem;">
+                  <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="landfont dropdown-toggle border-0 mt-2" style="color: #FAC300;background-color: #161515;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Offers
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item landfont" href="/admin/view-category-offers">Category Offers</a></li>
+                          <li><a class="dropdown-item landfont" href="/admin/view-coupenOffers">Coupon Offers</a></li>
+                        </ul>
+                      </div>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewproduct">ALL PRODUCTS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewusers">ALL CUSTOMERS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/category">CATEGORY</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/orders">ORDERS</a>
+                  </li>
+                </ul>
+
+                <form class="d-flex justify-content-end">
+                  <a href="/admin/adminlogout" class="btn btn-danger landfont rounded-pill">LOGOUT</a>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+    
+
+              <section class="vh-100 gradient-custom">
+  <div class="container py-5 h-50">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-5 col-xl-4">
+        <div class="card  text-white" style="border-radius: 1rem;background-color: #16151584;">
+          <div class="card-body  text-center">
+         
+          <form action="/admin/addCoupenOffers" method="post" id="loginform">
+           
+            <div class="mb-md-5 mt-md ">
+
+              {{#if err}}
+              <p class="alert alert-danger">{{err}}</p>
+              {{/if}}
+
+              <h2 class="mb-2 text-uppercase" style="font-family: fantasy; color: #FAC300;">CATEGORY OFFERS</h2>
+
+                <div class="form-outline mt-3 mb-3 border-0" style="background-color: #161515;">
+                <h5>Coupen Code</h5>
+                 <input type="text" id="typePasswordX" name="coupenCode" class="form-control form-control-lg border-0" style="background-color: white;color: black;" />
+                </div>
+
+              <div class="form-outline  mb-3" style="background-color: #161515;">
+                <h5>Amount</h5>
+                <input type="number" id="typePasswordX" name="amount" class="form-control form-control-lg" style="background-color: white;color: black;" />
+              </div>
+
+              <div class="form-outline  mb-3" style="background-color: #161515;">
+                <h5>Minimum Purchase</h5>
+                <input type="number" id="typePasswordX" name="minimum" class="form-control form-control-lg" style="background-color: white;color: black;" />
+              </div>
+
+              <div class=" mb-3" style="background-color: #161515;">
+                <h5>Valied From</h5>
+                <input type="date"  name="validfrom" style="background-color: white;color: black;width: 20rem;" />
+              </div>
+              <div class="mb-3" style="background-color: #161515;">
+                <h5>Valied Till</h5>
+                <input type="date" id="typePasswordX" name="validtill" style="background-color: white;color: black;width: 20rem;" />
+              </div>
+              
+
+              <button  style="background-color: #FAC300;color:#630909;width: 10rem;" class="btn btn-block rounded-pill gradient-custom-4 text-body loginbtn" type="submit">ADD OFFER</button>
+            
+              
+
+            </div>
+
+           </form>
+            
+
+            <div>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+</body>

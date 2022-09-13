@@ -1,0 +1,31 @@
+<section style="background-color: #161515; height: 100vh;"> 
+    <section>
+<div class="d-flex justify-content-center" style="height:4rem; background-color: black;">
+    <a href="/" class="home"  >HOME</a>
+</div>
+     </section>
+
+<section>
+    <div class="d-flex justify-content-center mt-5">
+        <h4 style="color: white;" class="landfont">Enter The Otp Send To Your Phone</h4>
+    </div>
+    <form action="/user/otpverification" method="post">
+    <div class="d-flex justify-content-center mt-5" >
+        <div style="width: 20rem;background-color: #161515;" class="form-outline  mb-4 " >
+                <input type="text" name="otp" id="typeEmailX" class="form-control form-control-lg" style=" background-color: #161515;color: white;"/>
+                
+        </div>
+        <input type="text" style="display: none;" name="phone" value={{phone}} >
+                <input type="text" style="display: none;" name="hash" value={{hash}} >
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+                  <button type="submit"
+                    class="btn btn-block btn-lg gradient-custom-4 text-body loginbtn" style="color:brown;background-color: #FAC300;width:10rem ;">LOGIN</button>
+                </div>
+    
+    </form>
+
+
+</section>
+
+</section>

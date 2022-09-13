@@ -1,0 +1,91 @@
+<body style="background-color: #161515;">
+    
+    <div class="d-flex justify-content-center" style="height:4rem; background-color: black;">
+        <a href="/" class="home"  >HOME</a>
+     </div>
+    
+     {{!-- <div class="d-flex justify-content-center " style="margin-top: 2rem;"> --}}
+        
+<section class="vh-100 bg-image"
+  style="background:rgba(0, 0, 0, 0.23) url('https://voltedpc.in/assets/images/20201101_002052.jpg'); background-size: cover; background-blend-mode: darken;">
+  <div class=" d-flex align-items-center  gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;background-color: #16151594;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-3 createanaccount">Create an account</h2>
+
+              
+              <form  action="/user/register" method="post" id="signupform">
+
+                <div style="background-color: #161515;" class="form-outline mb-4">
+                  <input  name="name" style="background-color: #161515;color: white;" type="text" id="form3Example1cg" class="form-control form-control-lg signupfield " />
+                  <label style="color: #FAC300;" class="form-label" for="form3Example1cg">Your Name</label>
+                </div>
+
+                <div style="background-color: #161515;" class="form-outline mb-4">
+                  <input name="email" style="background-color: #161515; color: white;" type="email" id="form3Example3cg" class="form-control form-control-lg signupfield" />
+                  <label style="color: #FAC300;" class="form-label" for="form3Example3cg">Your Email</label>
+                </div>
+                {{#if emailexist}}
+              <p style="color: white;">Email Already Existed</p>
+              {{/if}}
+
+
+                <div style="background-color: #161515;" class="form-outline mb-4">
+                  <input name="password" style="background-color: #161515; color: white;" type="password" id="form3Example4cg" class="form-control form-control-lg signupfield" />
+                  <label style="color: #FAC300;" class="form-label" for="form3Example4cg">Password</label>
+                </div>
+
+                <div style="background-color: #161515;" class="form-outline mb-4">
+                  <input name="repeatpassword" style="background-color: #161515;color: white;" type="password" id="form3Example4cdg" class="form-control form-control-lg signupfield" />
+                  <labe style="color: #FAC300;" class="form-label" for="form3Example4cdg">Repeat your password</label>
+                  
+                </div>
+
+              {{#if wrongpass}}
+                  <p style="color: white;"> Please Check Entred Password </p>
+                 {{/if}}
+
+                <div class="d-flex justify-content-center">
+                  <button type="submit"
+                    class="btn btn-block btn-lg gradient-custom-4 text-body loginbtn" style="color:brown;background-color: #FAC300;">Register</button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0" style="color:#ffff;" >Have already an account? <a href="/user/login"
+                    class="fw-bold text-body"><u style="color:#ffff;" >Login here</u></a></p>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+     </div>
+
+<script>
+  jQuery('#signupform').validate({
+    rules:{
+      name:'required',
+      email:'required',
+      password:'required',
+      repeatpassword:'required',
+
+    },messages:{
+      firstname:'Please Enter Your First Name',
+      email:'Please Enter Your Email',
+      password:'Please Enter Your Password',
+
+
+    },submitHandler:function(form){
+      form.submit();
+    }
+  })
+</script>
+    
+</body>

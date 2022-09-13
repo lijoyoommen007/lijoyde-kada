@@ -1,0 +1,119 @@
+<body style="background-color: #161515;">
+
+    <header class="">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+              <a class="navbar-brand landfont" style="color: white;" href="/admin/dashboard">LJ GAMING</a>
+              <button class="navbar-toggler" style="background-color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-left: 19rem;">
+                  <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="landfont dropdown-toggle border-0 mt-2" style="color: #FAC300;background-color: #161515;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Offers
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item landfont" href="/admin/view-category-offers">Category Offers</a></li>
+                          <li><a class="dropdown-item landfont" href="/admin/view-coupenOffers">Coupon Offers</a></li>
+                        </ul>
+                      </div>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewproduct">ALL PRODUCTS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewusers">ALL CUSTOMERS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/category">CATEGORY</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/orders">ORDERS</a>
+                  </li>
+                </ul>
+
+                <form class="d-flex justify-content-end">
+                  <a href="/admin/adminlogout" class="btn btn-danger landfont rounded-pill">LOGOUT</a>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <section  class="container">
+    <div style="background-color: white;">
+      
+        
+        <table  id="table1" class="table table-striped dt-responsive nowrap" style="width:100%" >
+  <thead>
+    <tr>
+      <th scope="col">category</th>
+      <th scope="col">Offer Price(%)</th>
+      <th scope="col">Valied From</th>
+      <th scope="col">Valied Till</th>
+      <th scope="col">Status</th>
+      <th scope="col">Options</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {{#each category}}
+    <tr>{{#if offer}}
+      <td>{{this.categoryname}}</td>
+      <td>{{this.offer.percent}}%</td>
+      <td>{{this.offer.validfrom}}</td>
+      <td>{{this.offer.validtill}}</td>
+      {{#if this.offer.isEnabled}}
+      <td><a href="/admin/disableCategoryOffer/{{this._id}}" class="btn btn-danger">DISABLE</a></td>
+      {{else}}
+      <td><a href="/admin/EnableCategoryOffer/{{this._id}}" class="btn btn-success">ENABLE</a></td>
+      {{/if}}
+      <td><a  class="btn btn-danger"  onclick="confirmation('{{this._id}}')" >DELETE</a> </td>
+      {{/if}}
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<div class="d-flex justify-content-end mt-5">
+            <a class="btn btn-success " style="margin-bottom: 2rem;" href="/admin/add-categoryOffers">Add New Offers</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function() {
+    $('#table1').DataTable({
+      responsive:true
+    });
+} );
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function confirmation(id){
+    Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success',
+      location.href = `/admin/deletecategoryoffers/${id}`
+
+    )      
+
+  }
+
+})
+  }
+</script>

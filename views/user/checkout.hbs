@@ -1,0 +1,302 @@
+<head>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AZ7HWqCqHO1XNjFH8ogly6t3fTKVcu1N969VigFyhS7Nf5PIxe3CxYGzdpSrPIofgpyzN-SBXjymLfR9&currency=USD"></script>
+
+</head>
+<section class="h-100 h-custom pt-5">
+  <div class="container py-5 h-100 pt-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 ">
+        <div class="card card-registration card-registration-2">
+          <div class="card-body p-0">
+
+            <div class="row g-0">
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <h3 class="fw-normal mb-2 logo" style="color: #4a1942;">Shipping details</h3>
+
+                  <!-- Pills navs -->
+                  <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" href="#pills-login" role="tab"
+                        aria-controls="pills-login" aria-selected="true">Use saved address</a>
+                    </li>
+                    {{#if orderAddress}}
+                    {{else}}
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="tab-register" data-mdb-toggle="pill" href="#pills-register" role="tab"
+                        aria-controls="pills-register" aria-selected="false">Add another address</a>
+                    </li>
+                    {{/if}}
+                  </ul>
+                  <!-- Pills navs -->
+
+                  <!-- Pills content -->
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+                      <form action="/deliver-here" method="post" id="deliver-form" class="deliver-form">
+                        {{#if user.address}}
+
+                        {{#if orderAddress}}
+                        {{#each user.address}}
+                        {{#ifCond this.title ../orderAddress}}
+                        <div class="p-3 mb-2 rounded-5" id="address-div" style="background-color: rgb(238, 234, 234);">
+                          <p class="fw-bold mb-0 ps-3" for="address">{{this.title}}</p>
+                          <p class="mb-0 ps-3 ">{{this.address}} {{this.pincode}}</p>
+                          <p class="mb-0 ps-3">+91 {{this.mobile}}</p>
+                          
+                        <a href="addressAgain" class="btn btn-primary">Add Another Address</a>   
+                          
+                        </div>
+                        {{/ifCond}}
+                        {{/each}}
+
+                        {{else}}
+                        <h5 class="fw-light">Choose an address</h5>
+                        {{#each user.address}}
+                        <div class="p-3 mb-2 rounded-5" id="address-div" style="background-color: rgb(238, 234, 234);">
+                          <input type="radio" name="order_address" value="{{this.title}}">
+                          <label class="fw-bold" for="address">{{this.title}}</label>
+                          <p class="mb-0 ps-3">{{this.address}} {{this.pincode}}</p>
+                          <p class="mb-0 ps-3">+91 {{this.mobile}}</p>
+                        </div>
+                        {{/each}}
+                        <button class="btn btn-dark btn-block deliver-btn" type="submit">Deliver here</button>
+                        {{/if}}
+                        {{else}}
+                        <div class="p-3 row rounded-5" style="background-color: rgb(238, 234, 234);">
+                          <label class="fw-bold text-center" for="address">You haven't saved any addresses yet</label>
+                        </div>
+                        {{/if}}
+                      </form>
+                      {{#if orderAddress}}
+                       {{#if offerAdded}}
+                      {{else}}
+                      <form action="/coupencheck" method="post">
+                     
+                      <div class="card">
+                        {{#if allcoupon}}
+                        <h4 style="margin-left: 1rem;">Available Coupons</h4>
+                        {{/if}}
+                        {{#each allcoupon}}
+                        <p style="margin-left: 1rem;margin-bottom: 0;">{{this.coupenCode}} : ₹{{this.amount}} off on minimum puchase of ₹{{this.minimum}}</p>
+                        {{/each}}
+                             <div class="card-body  d-flex flex-row">
+                               <div class="form-outline flex-fill">
+                                 <input type="text" id="form1" name="coupencode" class="form-control form-control-lg"/>
+                                 <label class="form-label" for="form1">Discound code</label>
+                               </div>
+                               <button type="submit" class="btn btn-outline-warning btn-lg ms-3">Apply</button>
+                             </div>
+                             {{#if err}}
+                             <p style="color: red;margin-left: 1rem;">{{err}}</p>
+                             {{/if}}
+                           </div>
+                           </form>
+                           {{/if}}
+                      {{/if}}
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                      <form action="/addnewaddress1" class="update-address-form" method="post"
+                        id="form-address-edit">
+                        <div class="mb-4 pb-2">
+                          <div class="form-outline">
+                            <input type="text" name="title" class="form-control form-control-lg"
+                              placeholder="eg. home, office" />
+                            <label class="form-label" for="form3Examplev3">Title</label>
+                          </div>
+                        </div>
+
+                        <Address class="mb-4 pb-2">
+                          <div class="form-outline">
+                            <textarea name="address" cols="3" class="form-control form-control-lg"></textarea>
+                            <label class="form-label" for="form3Examplev2">Address</label>
+                          </div>
+                        </Address>
+
+                        <div class="mb-4 pb-2">
+                          <div class="form-outline">
+                            <input type="text" name="city" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplev3">City</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-4 pb-2">
+                          <div class="form-outline">
+                            <input type="number" name="pincode" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplev3">Pincode</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-4 pb-2">
+                          <div class="form-outline">
+                            <input type="tel" name="mobile" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplev3">Mobile</label>
+                          </div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-dark btn-block mb-3 update-address-btn">Add
+                          address</button>
+
+                      </form>
+                    </div>
+                  </div>
+                  <!-- Pills content -->
+                </div>
+              </div>
+              <div class="col-lg-6 text-white" style="background-color: #161515;">
+                <div class="p-5">
+                  <form action="" id="checkout-form">
+                    <h3 class="fw-normal mb-5 logo">Payment Details</h3>
+
+                    <div class="mb-4 pb-2">
+                      <div class="d-flex justify-content-between align-items-center text-white">
+                        <h4>Total amount</h4>
+                        <h5 class="float-left">₹<span id="total">{{total}}</span>/-</h5>
+                      </div>
+                      <hr>
+                    </div>
+
+                    <div class="row">
+                      <div class="mb-4 pb-2 border rounded">
+                        <div class="text-white p-4">
+                          <label class="mb-2 fw-bold" for="payment method">Select a payment method</label><br>
+                         
+                          <input type="radio" id="cod" name="payment-method" onclick="displaycheckout()" value="COD" required>
+                          <label for="cod">Cash on delivery</label><br>
+                          <input type="radio" id="razorpay" name="payment-method" onclick="displaycheckout()" value="RazorPay">
+                          <label for="razorpay">Razorpay</label><br>
+                          <input type="radio" name="payment-method" onclick="displayPaypal()" value="payPal">
+                          <label for="paypal">Paypal</label><br>
+                          <div id="paypal-button-container" class="d-none mt-3"></div>
+
+                        </div>
+
+                      </div>
+                      <input class="d-none" type="text" name="userId" value="{{user._id}}">
+                      <input class="d-none" type="text" name="title" value="{{orderAddress}}">
+                      <input class="d-none" type="text" name="name" value="{{user.name}}">
+                      {{#each user.address}}
+                      {{#ifCond this.title ../orderAddress}}
+                      <input class="d-none" type="text" name="address" value="{{this.address}}">
+                      <input class="d-none" type="text" name="city" value="{{this.city}}">
+                      <input class="d-none" type="number" name="pincode" value="{{this.pincode}}">
+                      <input class="d-none" type="tel" name="phone" value="{{this.mobile}}">
+                      {{/ifCond}}
+                      {{/each}}
+                    </div>
+
+                    <a href="/cart" class="btn btn-dark border btn-lg" data-mdb-ripple-color="dark">Go back</a>
+                    <button type="submit" id="checkout-button" class="btn btn-light btn-lg d-none"
+                      data-mdb-ripple-color="dark">Checkout</button>
+                 
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function displaycheckout() {
+    console.log('get inside')
+     var element = document.getElementById("paypal-button-container");
+     var checkout = document.getElementById("checkout-button");
+     element.classList.add("d-none");
+     checkout.classList.remove("d-none");
+  }
+
+     function displayPaypal() {
+
+      var element = document.getElementById("paypal-button-container");
+     var checkout = document.getElementById("checkout-button");
+     element.classList.remove("d-none");
+     checkout.classList.add("d-none");
+   }
+
+</script>
+
+<script src="/javascripts/paypal.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $("#checkout-form").submit((e)=>{
+      console.log('bla bla bla')
+        e.preventDefault()
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$('#checkout-form').serialize(),
+            success:(response)=>{
+              if(response.codSuccess){
+                  location.href="/ordersuccesful"
+              }else if(response.order){
+                razorPayment(response.order)
+              }else if(response.paypal){
+                location.href='/ordersuccesful'
+              }else{
+                location.href="/cart"
+              }
+              
+            }
+        })
+    })
+
+function razorPayment(order) {
+    
+    var options = {
+        "key": "rzp_test_ilbozCbF2qsKox", // Enter the Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": order.user.name,
+        "description": "Test Transaction",
+        "image": "/images/resize-1661314920805561225Group1.jpg",
+        "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            
+            verifyPayment(response,order)
+        },
+        "prefill": {
+            "name": order.user.name,
+            "email": order.user.email,
+            "contact": order.user.phone
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#F37254"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+}   
+
+function verifyPayment(payment,order){
+  $.ajax({
+    url:'/verify-payment',
+    data:{
+      payment,
+      order
+    },
+    method:'post',
+    success:(response)=>{
+      if(response.status){
+          location.href="/ordersuccesful"
+      }else{
+        alert('payent failed')
+      }
+    }
+  })
+}
+
+
+    
+</script>

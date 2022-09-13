@@ -1,0 +1,234 @@
+<div class="container">
+    <div class="main-body">
+    
+          <!-- Breadcrumb -->
+          
+          <!-- /Breadcrumb -->
+        
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{user.name}}</h4>
+                      <p class="text-secondary mb-1">Email</p>
+                      <p class="text-muted font-size-sm">{{user.email}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-3">
+                {{#if user.address}}
+                {{#each user.address}}
+                <ul>
+                   <li><b>{{this.title}}</b><br>
+                   {{this.name}}<br>
+                   {{this.address}}<br>
+                   {{this.city}}
+                   {{this.pincode}}<br>
+                   {{this.mobile}}
+                  <button onclick="removeAddress('{{../user._id}}','{{this.title}}')" class="text-danger" style="margin-left: 15rem;"><i class="fas fa-trash fa-lg"></i></button>
+              </li>
+                </ul>
+              {{/each}}
+              {{else}} <h3>Add New Address</h3>
+              {{/if}}
+              </div>
+            </div>
+          
+            <div class="col-md-8">
+
+            <form action="/edit-account-info" method="post" id="details">
+            {{#if err}}
+            <div style="display: flex;justify-content: center;">
+              <p class="alert alert-danger">{{err}}</p>
+            </div>
+            {{/if}}
+            {{#if success}}
+            <div style="display: flex;justify-content: center;">
+              <p class="alert alert-success">{{success}}</p>
+            </div>
+            {{/if}}
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    
+                    <input type="text" name="name" value="{{user.name}}" style="border: none;">
+                    
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    
+                    <input type="email" name="email" value="{{user.email}}" style="border: none">
+                    
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Password</h6>
+                    </div>
+                    <input type="password" id="password" name="password" style="border: none;">
+                  </div>
+                  <hr>
+                  
+                  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button type="submit" class="btn btn-info ">Edit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <input type="text" name="userId" value="{{user._id}}"hidden >
+
+              </form>
+
+              <div class="row gutters-sm">
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                     
+                     <h3 class="landfont" style="font-size: 20px; text-align: center;">CLICK BELOW TO ADD YOUR ADDRESS</h3>
+                      <div style="display: flex;justify-content: center;">
+                     <button  type="button" id="formButton2" class="btn btn-primary">Add New Address</button>
+                      </div>
+
+
+                          <form id="form2" class="mt-2" style="display:none;4" action="/addnewaddress" method="post">
+                            <b>Title:</b><br>
+                            <input type="text" name="title" >
+                            <br><br>
+                            <b>Address:</b><br>
+                            <input type="text" name="address" id="address">
+                            <br><br>
+                            <b>City:</b><br>
+                            <input type="text" name="city" >
+                            <br><br>
+                             <b>Mobile:</b><br>
+                            <input type="text" name="mobile" >
+                            <br><br>
+                             <b>PinCode:</b><br>
+                            <input type="text" name="pincode" >
+                            <br><br>
+                  
+                            <button class="btn btn-success" type="submit" id="submit">Submit</button>
+                          </form>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h3 class="landfont" style="font-size: 20px; text-align: center;">CLICK BELOW TO CHANGE YOUR PASSWORD</h3>
+                      <div style="display: flex;justify-content: center;">
+                     <button  type="button" id="formButton" class="btn btn-primary">CHANGE PASSWORD</button>
+                      </div>
+
+
+                          <form id="form1" class="mt-2" style="display:none;4" action="/changepassword" method="post">
+                            <b>Current Password:</b><br><input type="password" name="currentPassword" id="currentPassword">
+                            <br><br>
+                            <b>Enter New Password:</b><br>
+                            <input type="password" name="newPassword" id="newPassword">
+                            <br><br>
+                            <b>ReEnter New Password:</b><br>
+                            <input type="password" name="reEnterPassword" id="reEnterPassword" onkeyup="check()">
+                            <br>
+                            <span id="message" ></span>
+                            <br><br>
+                            <button class="btn btn-success" type="submit" id="submit">Submit</button>
+                          </form>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function removeAddress(userId,Title){
+    Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    $.ajax({
+      url:'/delete-address',
+      method:'post',
+      data:{
+        'userId':userId,
+        'title':Title,
+      },
+      success:(response)=>{
+        location.reload()
+      }
+    })
+          
+
+  }
+
+})
+  }
+</script>
+<script>
+  jQuery('#details').validate({
+    rules:{
+      password:'required',
+      name:'required',
+      email:'required'
+
+
+    },messages:{
+      password:'Please Enter Your Password',
+
+
+    },submitHandler:function(form){
+      form.submit();
+    }
+  })
+</script>
+
+<script>
+  jQuery('#form2').validate({
+    rules:{
+      title:'required',
+      name:'required',
+      address:'required',
+      city:'required',
+      mobile:'required',
+      pincode:'required',
+
+
+
+
+    },messages:{
+      password:'Please Enter Your Password',
+
+
+    },submitHandler:function(form){
+      form.submit();
+    }
+  })
+</script>

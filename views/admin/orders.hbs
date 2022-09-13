@@ -1,0 +1,154 @@
+<body style="background-color: #161515;">
+
+    <header class="">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+              <a class="navbar-brand landfont" style="color: white;" href="/admin/dashboard">LJ GAMING</a>
+              <button class="navbar-toggler" style="background-color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-left: 19rem;">
+                  <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="landfont dropdown-toggle border-0 mt-2" style="color: #FAC300;background-color: #161515;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Offers
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item landfont" href="/admin/view-category-offers">Category Offers</a></li>
+                          <li><a class="dropdown-item landfont" href="/admin/view-coupenOffers">Coupon Offers</a></li>
+                        </ul>
+                      </div>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewproduct">ALL PRODUCTS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewusers">ALL CUSTOMERS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/category">CATEGORY</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/orders">ORDERS</a>
+                  </li>
+                </ul>
+
+                <form class="d-flex justify-content-end">
+                  <a href="/admin/adminlogout" class="btn btn-danger landfont rounded-pill">LOGOUT</a>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <section  class="container-fluid">
+    <div style="background-color: white;">
+      
+        
+  <table style="width:0% !important;" id="table1" class="table-striped dt-responsive nowrap">
+  <thead>
+    <tr>
+      <th scope="col">product</th>
+      <th scope="col">Ordred Date</th>
+      <th scope="col">Details</th>
+      <th scope="col">Payment Method</th>
+      <th scope="col">Total</th>
+      <th scope="col">Order Status</th>
+   
+      
+    </tr>
+  </thead>
+ 
+  <tbody>
+    {{#each orders}}
+    <tr>
+      
+      <td><ul>{{#each products}}<li><img style="width: 50px;height: 50px;" src="/productimage/{{this.item}}.jpg" alt="">{{this.productName}}</li>{{/each}}</ul></td>
+      
+      <td>{{this.date}}</td>
+      <td><div class="btn-group dropend">
+        <button type="button" class="btn btn-primary">
+          DETAILS
+        </button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropend</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li>Orderd By:<br>
+           {{this.deliveryDetails.name}} <br>
+           {{this.deliveryDetails.mobile}}</li>
+           <li>Address:<br>
+           {{this.deliveryDetails.name}} <br>
+          {{this.deliveryDetails.address}} <br>
+          {{this.deliveryDetails.city}} <br>
+          {{this.deliveryDetails.pincode}}</li>
+        </ul>
+      </div></td>
+     
+     
+      <td>{{this.paymentMethod}}</td>
+     
+      <td>{{this.totalAmount}}</td>
+      <td>
+        {{#ifCond this.status 'Delivered'}}
+        Delivered
+        {{else}}  
+        <select onchange="changeStatus('{{this._id}}')" id="status{{this._id}}">
+          <option value="{{this.status}}">{{this.status}}</option>
+          <option>Placed</option>
+          <option>Ordered</option>
+          <option>Approved</option>
+          <option>Cancelled</option>
+          <option>Shipped</option>
+          <option>Out For Delivery</option>
+          <option>Delivered</option>
+        </select>
+        {{/ifCond}}
+        </td>
+    </tr>
+     {{/each}}
+  </tbody>
+     
+
+</table>
+
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function() {
+    $('#table1').DataTable({
+      responsive:true
+    });
+} );
+</script>
+
+ <script>
+  function changeStatus(id){
+    let status = $('#status'+id).val()
+    if (!status){
+        status = "Waiting for cancel approval"
+        $('#status'+id).html(status)
+    } 
+    $.ajax({
+        url:'/admin/set-status',
+        data:{
+            status:status,
+            orderId:id
+        },
+        method:'post',
+        success:(response)=>{
+           
+        }
+    })
+  }
+ </script>
+
+ 
+
+
+</body>

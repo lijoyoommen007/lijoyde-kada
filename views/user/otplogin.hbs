@@ -1,0 +1,33 @@
+<section style="background-color: #161515; height: 100vh;"> 
+    <section>
+<div class="d-flex justify-content-center" style="height:4rem; background-color: black;">
+    <a href="/" class="home"  >HOME</a>
+</div>
+     </section>
+
+<section>
+    <div class="d-flex justify-content-center mt-5">
+        <h4 style="color: white;" class="landfont">Enter Your Phone Number For OTP</h4>
+    </div>
+    {{#if err}}
+    <div>
+        <p class="alert alert-danger">{{err}}</p>
+    </div>
+    {{/if}}
+    <form action="/user/otplogin" method="post">
+    <div class="d-flex justify-content-center mt-5" >
+        <div style="width: 20rem;background-color: #161515;" class="form-outline  mb-4 " >
+                <input type="text" name="phone" id="typeEmailX" class="form-control form-control-lg" required style=" background-color: #161515;color: white;"/>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+                  <button type="submit"
+                    class="btn btn-block btn-lg gradient-custom-4 text-body loginbtn" style="color:brown;background-color: #FAC300;width:10rem ;">LOGIN</button>
+                </div>
+    
+    </form>
+
+
+</section>
+
+</section>

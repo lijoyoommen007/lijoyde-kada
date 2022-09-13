@@ -1,0 +1,149 @@
+    <body style="background-color: #161515;">
+       
+
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img id="image-zoom"  src="/productimage/{{productdetails._id}}.jpg" alt="Image To Zoom" class="card-img-top mb-5 mb-md-0" ></div>
+                    <div class="col-md-6">
+                        
+                        <h1 class="display-5 fw-bolder landfont" style="color: #FAC300;" >{{productdetails.productname}}</h1>
+                        <div class="fs-5 mb-5">
+                          {{#if proCat.offer.isEnabled}}
+                             <span style="color: white; font-family: fantasy;">({{proCat.offer.percent}}%off)</span>
+                          {{/if}}
+                            <span style="color: white;" class="text-decoration-line-through">₹{{productdetails.price}}</span>
+                            <span style="color: white; font-family: fantasy; ">₹{{productdetails.offerprice}}</span>
+                        </div>
+                        <p class="lead" style="color: white; font-family: monospace; " > {{productdetails.description}} </p>
+                        <div class="d-flex">
+                            <input class="btn landfont rounded-pill text-center" id="inputQuantity" type="num" value="1" style="max-width: 3rem; color: black;background-color: white;"  />
+                            <button onclick="addToCart('{{productdetails._id}}','{{productdetails.productname}}','{{productdetails.offerprice}}')" class="btn landfont  glow-on-hover" style="color: #fff; background-color: #FAC300;box-shadow: 0 0 19px 5px rgb(243 56 171 / 72%);margin-left: 1rem;">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div class="mt-5 d-flex justify-content-center">
+            <h1 class="landfont" style="color: #FAC300;" > RELATED ITEMS </h1>
+    </div>
+   
+  
+   <div class="owl-carousel owl-theme container mt-5">
+          {{#each allProducts}}
+      <div class="item"><img src="/productimage/{{this._id}}.jpg" alt="1">
+          <div class="mt-5">
+            <p style="color: white;text-align: center;" class="landfont"> {{this.productname}} </p>
+            <div class="d-flex justify-content-center mb-4"><a href="/viewproducts/{{this._id}}"  class="btn landfont  glow-on-hover" style="color: #fff; background-color: #FAC300;box-shadow: 0 0 19px 5px rgb(243 56 171 / 72%)" > BUY NOW </a></div>
+          </div>
+      </div> 
+      {{/each}}
+    </div>
+
+   
+
+
+
+
+          <footer class="bg-dark text-center text-white mt-5">
+  <!-- Grid container -->
+  <div class="container p-4 pb-0">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-facebook-f"></i
+      ></a>
+
+      <!-- Twitter -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-twitter"></i
+      ></a>
+
+      <!-- Google -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-google"></i
+      ></a>
+
+      <!-- Instagram -->
+      <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+        ><i class="fab fa-instagram"></i
+      ></a>
+
+     
+
+     
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2020 Copyright:
+    <a class="text-white" href="https://mdbootstrap.com/">LS SQUARE DESIGNS</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <script src="/javascripts/zoomsl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+ <script>
+  $(function(){
+  $("#image-zoom").imagezoomsl({
+    zoomrange:[1,1]
+  });
+});
+</script>
+    
+    <script>
+      
+function addToCart(proId,proName,offerprice){
+  $.ajax({
+    url:`/addtocart/${proId}`,
+    method:'post',
+    data:{
+     "name":proName,
+     "offer":offerprice,
+    },
+    success:(response)=>{
+      if(response.status){
+        let count = $('#cartcount').html()
+        count=parseInt(count)+1
+        $("#cartcount").html(count)
+
+      }
+    }
+  })
+}
+
+    </script>
+    
+
+    <script>
+      $('.owl-carousel').owlCarousel({
+    loop:true,
+    autoplay:true,
+    margin:20,
+    nav:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:4
+        }
+    }
+})
+    </script>
+        
+    </body>

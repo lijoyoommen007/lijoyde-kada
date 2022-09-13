@@ -1,0 +1,84 @@
+
+<body style="background-color: #161515;">
+
+
+     <div class="d-flex justify-content-center" style="height:4rem; background-color: black;">
+        <a href="/" class="home"  >HOME</a>
+     </div>
+<section style="height: 100vh; background:rgba(0, 0, 0, 0.599) url('https://www.nubgamerz.com/wp-content/uploads/2021/02/blog.jpg'); background-size: cover; background-blend-mode: darken;" >
+         
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-50">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card  text-white" style="border-radius: 1rem;background-color: #16151584;">
+          <div class="card-body  text-center">
+         
+          <form action="/user/login" method="post" id="loginform">
+           
+            <div class="mb-md-5 mt-md-4 ">
+
+              <h2 class="mb-2 text-uppercase login-here">Login</h2>
+              <p class="text-white-50 mb-5">Please enter your login and password!</p>
+              {{#if invaliedpass}}
+              <p class="alert alert-danger">Invalied Email or Password</p>
+              {{/if}}
+              {{#if loginerr}}
+              <p class="alert alert-danger">{{loginerr}}</p>
+              {{/if}}
+            
+
+              <div class="form-outline  mb-4" style="background-color: #161515;">
+                <input type="email" name="email" id="typeEmailX" class="form-control form-control-lg" style="background-color: #161515;color: white;"/>
+                <label style="color: #FAC300;" class="form-label" for="typeEmailX">Email</label>
+              </div>
+
+              <div class="form-outline  mb-4" style="background-color: #161515;">
+                <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" style="background-color: #161515;color: white;" />
+                <label style="color: #FAC300;" class="form-label" for="typePasswordX">Password</label>
+              </div>
+              
+
+              <button  style="background-color: #FAC300;color:#630909;" class="btn btn-block btn-lg gradient-custom-4 text-body loginbtn zoom" type="submit">Login</button>
+            
+              
+
+            </div>
+
+           </form>
+            
+              <a href="/user/otplogin" style="background-color: #FAC300;color:#630909;" class="btn btn-block btn-lg gradient-custom-4 text-body loginbtn ">OTP LOGIN</a>
+
+            <div>
+              <p class="mb-0">Don't have an account? <a href="/user/signup" class="text-white-50 fw-bold zoom">Sign Up</a>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+     
+  </section>   
+<script>
+  jQuery('#loginform').validate({
+    rules:{
+      email:'required',
+      password:'required',
+
+    },messages:{
+      email:'Please Enter Your Email',
+      password:'Please Enter Your Password',
+
+
+    },submitHandler:function(form){
+      form.submit();
+    }
+  })
+</script>
+
+</body>

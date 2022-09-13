@@ -1,0 +1,117 @@
+<section class="h-100" style="background-color:#161515;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+      {{#if products}}
+   
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="landfont mb-0" style="color: white;">WISH LIST</h3>
+          
+        </div>
+        
+        
+        
+        {{#each products}}
+
+
+        <div class="card rounded-3 mb-4">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+            
+
+              <div class="col-md-2 col-lg-2 col-xl-2">
+                <img style="width: 5rem;"
+                  src="/productimage/{{this.product._id}}.jpg"
+                  class="img-fluid rounded-3" alt="Cotton T-shirt">
+              </div>
+              <div class="col-md-3 col-lg-3 col-xl-3">
+                <a href="/viewproducts/{{this.product._id}}" class="lead fw-normal mb-2 landfont" style="text-decoration: none;">{{this.product.productname}}</a>
+              </div>
+
+              <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                <h5 class="mb-0">₹{{this.subTotal}}</h5>
+              </div>
+             
+              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1"> 
+               <button onclick="addToCart('{{this.product._id}}','{{this.product.productname}}','{{this.product.offerprice}}')" class="btn landfont " style="color: #fff; background-color: #FAC300;margin-left: 1rem;">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+              </div>
+                  
+
+              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                <button onclick="removeproduct('{{this._id}}','{{this.product._id}}')" class="text-danger"><i class="fas fa-trash fa-lg"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+
+
+      {{else}}
+         <div style="display: flex; justify-content: center;">
+        <img src="https://2.bp.blogspot.com/-QfSOClZc8r0/XNr6srFlzjI/AAAAAAAAGlA/lzs505eFFiEdyAytzKkMabdUTihKywcqwCLcBGAs/s1600/EXAM360%2B-%2BNo%2BWishlist.png" alt="">
+      </div>
+      {{/if}}
+      </div>
+    </div>
+  </div>
+
+ 
+</section>
+
+ 
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function removeproduct(cartId,proId){
+    Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    $.ajax({
+      url:'/delete-product-from-wishlist',
+      method:'post',
+      data:{
+        'cartId':cartId,
+        'proId':proId,
+      },
+      success:(response)=>{
+        location.reload()
+      }
+    })
+          
+
+  }
+
+})
+  }
+</script>
+<script>
+function addToCart(proId,proName,offerprice){
+  $.ajax({
+    url:`/addtocart/${proId}`,
+    method:'post',
+    data:{
+     "name":proName,
+     "offer":offerprice,
+    },
+    success:(response)=>{
+      if(response.status){
+        let count = $('#cartcount').html()
+        count=parseInt(count)+1
+        $("#cartcount").html(count)
+
+      }
+    }
+  })
+}
+
+    </script>
