@@ -44,6 +44,7 @@ module.exports={
     }, 
     doLogin:(userData)=>{
         return new Promise(async(resolve,reject)=>{
+            try{ 
             let loginStatus=false
             let response ={}
             let user=await db.get().collection('user').findOne({email:userData.email})
@@ -70,6 +71,9 @@ module.exports={
                 err='invalied email or password'
                 reject(err,{status:false})
             }
+        }catch{
+            reject()
+        }
         })
     },
 
@@ -756,9 +760,13 @@ module.exports={
 
     getUserOrder:(userId)=>{
         return new Promise(async (resolve, reject) => {
+            try{
             let orders = await db.get().collection('order').find({ userId: objectid(userId) }).sort({ date: -1 }).toArray()
             // console.log(orders)
             resolve(orders,) 
+            }catch{
+                reject()
+            }
         })
     },
 

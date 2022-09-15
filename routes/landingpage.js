@@ -24,6 +24,7 @@ const verifyLogin = (req,res,next)=>{
 
 
 router.get('/',async(req,res)=>{
+    try{
     if(req.session.logedIn){
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.redirect('/home')
@@ -37,6 +38,9 @@ router.get('/',async(req,res)=>{
         
         res.render('user/landingpage',{product,category,admin:true,})
     }
+ }catch{
+    res.redirect('/error')
+ }
 })
 
 router.get('/home',async(req,res)=>{
@@ -211,7 +215,9 @@ router.post('/verify-payment', verifyLogin, (req, res) => {
   })
 
 router.get('/orders',verifyLogin,async(req,res)=>{
-    let orders = await productHelpers.getUserOrder(req.session.user._id) 
+    let orders = await productHelpers.getUserOrder(req.session.user._id).catch(()=>{
+        res.redirect('/error')
+    })
     res.render('user/orders',{orders,admin:false}) 
 })
 

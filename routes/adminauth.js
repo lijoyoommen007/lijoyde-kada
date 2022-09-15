@@ -19,11 +19,15 @@ const adminInfo = {
 }
 
 const verifyLogin = (req,res,next)=>{
+  try{
     if(req.session.loggedIn){
         next()
     }else{
         res.redirect('/admin/login')
     }
+  }catch{
+    res.redirect('/error')
+  }
 }
 
 
@@ -31,6 +35,7 @@ const verifyLogin = (req,res,next)=>{
 
 
 router.get('/login',(req,res)=>{
+  try{
     if(req.session.loggedIn){
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.redirect('/admin/dashboard')
@@ -39,6 +44,9 @@ router.get('/login',(req,res)=>{
     res.render('admin/login',{'invUser': req.session.invUser,admin:true})
     req.session.invUser=false
     }
+  }catch{
+    res.redirect('/error')
+  }
 })
 
 router.get('/viewusers',verifyLogin,(req,res)=>{
@@ -200,8 +208,9 @@ router.get('/dashboard',verifyLogin,async(req,res)=>{
     let most = await productHelpers.mostSaledProduct()
     let min = await productHelpers.leastSaledProduct()
     let user =await productHelpers.getUserDetails()
+    console.log((req.session.userOrders));
+
     let latestorder = await productHelpers.getLatestOrder()
-    try {
         let total = 0
         let newDate = []
         no= 0
@@ -239,15 +248,15 @@ router.get('/dashboard',verifyLogin,async(req,res)=>{
                
            
                 });
-          res.render('admin/dashboard',{admin:true,total,users,orders,no,u_no,most,min,user,latestorder});
+          res.render('admin/dashboard',{admin:true,total,users,orders,no,u_no,most,min,user,latestorder,'userOrders':req.session.userOrders,'err':req.session.userErr});
+          req.session.userOrders=false
+          req.session.userErr=false
         });
      
           
         })
    
-}catch(err){
-    console.log(err);
-}
+
 })
 
 router.get("/stats",verifyLogin, async (req, res) => {
@@ -275,7 +284,7 @@ router.get("/stats",verifyLogin, async (req, res) => {
       ]).sort({ _id: -1 }).toArray();
       res.status(200).json(data)
     } catch (err) {
-      res.status(500).json(err);
+      //res.json(err);
       console.log(err);
     }
   });
@@ -305,7 +314,7 @@ router.get("/stats",verifyLogin, async (req, res) => {
       ]).sort({ _id: -1 }).toArray();
       res.status(200).json(data)
     } catch (err) {
-      res.status(500).json(err);
+      //res.json(err);
       console.log(err);
     }
   });
@@ -327,14 +336,14 @@ router.get("/stats",verifyLogin, async (req, res) => {
         },
         {
           $group: {
-            _id: "$dayOfMonth",
+            _id: "$dayOfMonth", 
             total: { $sum: "$total" },
           },
         },
       ]).sort({ _id: -1 }).toArray();
       res.status(200).json(data)
     } catch (err) {
-      res.status(500).json(err);
+      //res.json(err);
       console.log(err);
     }
   });
@@ -363,7 +372,7 @@ router.get("/stats",verifyLogin, async (req, res) => {
       ]).sort({ _id: -1 }).toArray();
       res.status(200).json(data)
     } catch (err) {
-      res.status(500).json(err);
+      //res.json(err);
       console.log(err);
     }
   });
@@ -469,6 +478,23 @@ router.get("/stats",verifyLogin, async (req, res) => {
     await adminHelpers.enableCouponOffer(req.params.id).then(()=>{
       res.redirect('/admin/view-coupenOffers')
     })
+  })
+
+  router.post('/searchuser',async(req,res)=>{
+    console.log(req.body.userEmail);
+    await adminHelpers.searchUser(req.body).then((userOrders)=>{
+      if(userOrders[0]){
+        req.session.userOrders=userOrders
+        res.redirect('/admin/dashboard')
+      }else{
+        err='User DoesNot Have Any offers yet'
+        console.log(err);
+        req.session.userErr=err
+        res.redirect('/admin/dashboard')
+      }
+      
+      
+      })
   })
 
 

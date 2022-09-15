@@ -1,0 +1,56 @@
+{{#if admin}}
+  <header style="background-color: #161515;">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <div class="container-fluid">
+              <a class="navbar-brand landfont" style="color: white;" href="/admin/dashboard">LJ GAMING</a>
+              <button class="navbar-toggler" style="background-color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="margin-left: 19rem;">
+                  <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="landfont dropdown-toggle border-0 mt-2" style="color: #FAC300;background-color: #161515;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Offers
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                          <li><a class="dropdown-item landfont" href="/admin/view-category-offers">Category Offers</a></li>
+                          <li><a class="dropdown-item landfont" href="/admin/view-coupenOffers">Coupon Offers</a></li>
+                        </ul>
+                      </div>
+                  </li>
+                    <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewproduct">ALL PRODUCTS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active landfont"  aria-current="page" style="color: #FAC300; margin-left: 1rem;" href="/admin/viewusers">ALL CUSTOMERS</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/category">CATEGORY</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link landfont" style="color: white;margin-left: 1rem;" href="/admin/orders">ORDERS</a>
+                  </li>
+                </ul>
+
+                <form class="d-flex justify-content-end">
+                  <a href="/admin/adminlogout" class="btn btn-danger landfont rounded-pill">LOGOUT</a>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </header>
+{{/if}}
+<div style="display: flex; justify-content: center; ">
+    <div>
+    <img src="https://stories.freepiklabs.com/storage/42123/oops-404-error-with-a-broken-robot-cuate-6558.png" alt="">
+    </div>
+</div>
+    <div class="d-flex justify-content-center">
+    {{#if admin}} 
+    <a href="/admin/dashboard" class="btn landfont" style="background-color: #FAC300;">Home</a>
+    {{else}}   
+    <a href="/home" class="btn landfont" style="background-color:#FAC300 ;">Home</a>
+    {{/if}}
+    </div>

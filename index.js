@@ -1,6 +1,6 @@
 const express = require("express")
-const mongoose = require("mongoose")
 const dotenv = require("dotenv")
+const createError = require('http-errors')
 const path = require('path')
 const hbs = require('express-handlebars')
 const app = express()
@@ -50,6 +50,32 @@ app.use('/admin' ,adminRouter)
 app.use('/users',userRoute)
 app.use('/user',authRoute)
 app.use('/', landRouter)
+
+app.get('/error',(req,res)=>{
+  if (req.session.loggedIn) {
+    res.render('error',{admin:true});
+  }
+  else{
+    res.render('error');
+  }
+})
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  console.log(err.message);
+  // render the error page
+  res.status(err.status || 500);
+  res.redirect('/error')
+  
+});
 
 
 

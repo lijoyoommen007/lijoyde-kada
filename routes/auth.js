@@ -51,6 +51,7 @@ router.post("/register",  (req, res) => {
    
 
 router.get('/login',(req,res)=>{
+    try{
     if (req.session.logedIn) {
         res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.redirect('/home')
@@ -60,6 +61,9 @@ router.get('/login',(req,res)=>{
         req.session.loginErr=false;
         
     }
+}catch{
+    
+}
         
 })
 

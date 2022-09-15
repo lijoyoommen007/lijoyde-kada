@@ -6,19 +6,28 @@ const session = require('express-session')
 const moment = require('moment')
 const { resolve } = require('path')
 const { response } = require('express')
+const { resolveAny } = require('dns')
+var objectid = require('mongodb').ObjectId
 
 
 module.exports={
     blockUser:(UserId)=>{
         return new Promise(async(resolve,reject)=>{
+            try{
             await db.get().collection('user').updateOne({_id:objectid(UserId)},{
                 $set:{
                     isBlocked:true
                 }
             }).then((response)=>{
                 resolve()
+            }).catch((err)=>{
+                reject(err)
             })
-        })
+        }catch{
+         reject()
+        }
+    })
+    
     },
 
     unblockUser:(UserId)=>{
@@ -316,6 +325,17 @@ module.exports={
             })
         })
     },
+
+    searchUser:(users)=>{
+        console.log(users.userEmail);
+            return new Promise((resolve,reject)=>{
+                db.get().collection('user').findOne({email:users.userEmail}).then(async(user)=>{
+                let userOrders = await db.get().collection('order').find({userId:objectid(user._id)}).toArray()
+                resolve(userOrders)
+            })
+        })
+       
+    }
 
 
 

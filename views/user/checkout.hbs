@@ -148,6 +148,7 @@
               </div>
               <div class="col-lg-6 text-white" style="background-color: #161515;">
                 <div class="p-5">
+                  {{#if orderAddress}}
                   <form action="" id="checkout-form">
                     <h3 class="fw-normal mb-5 logo">Payment Details</h3>
 
@@ -193,6 +194,11 @@
                       data-mdb-ripple-color="dark">Checkout</button>
                  
                   </form>
+                  {{else}}
+                  <div style="margin-top: 40%;">
+                  <h1 style="text-align: center;">Select An Address To Continue</h1>
+                  </div>
+                  {{/if}}
                 </div>
               </div>
             </div>

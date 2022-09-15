@@ -214,3 +214,6 @@ height: 100%;
   left: 5px;
   bottom: 140px;
 }
+.buttons-print{
+  display: none;
+}

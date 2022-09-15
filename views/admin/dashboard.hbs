@@ -149,6 +149,7 @@
     
   </tbody>
 </table>
+
 </div> 
 
     </div>   
@@ -206,15 +207,70 @@
 
 
 
+      </div >
+      <div style="display:flex;justify-content: center;" class="mb-5">
+      <form action="/admin/searchuser" method="post" >
+        <h4>SEARCH USER ORDER</h4>
+        <div style="display:flex;justify-content: center;">
+        <input id="user" type="text" name="userEmail" placeholder="USER EMAIL" style="width: 15rem;align-items: center;">
+        <button type="submit" class="btn ">SEARCH</button>
+        </div>
+      </form>
       </div>
     </div>
-
- 
-
-  
+</section>
+{{#if userOrders}}
+<section class="container-fluid">
+<table class="table1 mb-5" id="table1" >
+  <thead>
+    <tr>
+      <th scope="col">product</th>
+      <th scope="col">Ordred Date</th>
+      <th scope="col">Details</th>
+      <th scope="col">Payment Method</th>
+      <th scope="col">Total</th>
+      <th scope="col">Order Status</th>
+   
+      
+    </tr>
+  </thead>
+  <tbody>
+    {{#each userOrders}}
+    <tr>
+      
+      <td><ul>{{#each products}}<li>{{this.productName}}</li>{{/each}}</ul></td>
+      
+      <td>{{this.date}}</td>
+      <td>{{this.deliveryDetails.name}} <br> {{this.deliveryDetails.address}} </td>
+     
+     
+      <td>{{this.paymentMethod}}</td>
+     
+      <td>{{this.totalAmount}}</td>
+      <td>{{this.status}}</td>
+    </tr>
+     {{/each}}
+  </tbody>
+</table>
+{{/if}}
+{{#if err}}
+<div class="mb-5" style="display: flex;justify-content: center;">
+  <h1>{{err}}</h1>
+</div>
+{{/if}}
 </section>
 </section>
 <script src="/javascripts/chart.min.js"></script>
+<script>
+    $(function () {
+      $('#table1').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+      });
+    });
+  </script>
 <script>
 
 
