@@ -41,7 +41,7 @@ app.use(session({
     saveUninitialized:true,
   }))
   db.connect((err)=>{
-    if(err) console.log('database error')
+    if(err) console.log('database error',err)
     else console.log('dataBase Is Connected');
   })
   

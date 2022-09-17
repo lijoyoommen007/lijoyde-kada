@@ -34,15 +34,15 @@
 
 
                 <div style="background-color: #161515;" class="form-outline mb-4">
-                  <input name="password" style="background-color: #161515; color: white;" type="password" id="form3Example4cg" class="form-control form-control-lg signupfield" />
-                  <label style="color: #FAC300;" class="form-label" for="form3Example4cg">Password</label>
+                  <input name="password" style="background-color: #161515; color: white;" type="password" id="newPassword" class="form-control form-control-lg signupfield" />
+                  <label style="color: #FAC300;" class="form-label" for="newPassword">Password</label>
                 </div>
 
-                <div style="background-color: #161515;" class="form-outline mb-4">
-                  <input name="repeatpassword" style="background-color: #161515;color: white;" type="password" id="form3Example4cdg" class="form-control form-control-lg signupfield" />
-                  <labe style="color: #FAC300;" class="form-label" for="form3Example4cdg">Repeat your password</label>
-                  
+                <div style="background-color: #161515;" class="form-outline mb-3">
+                  <input name="repeatpassword" style="background-color: #161515;color: white;" type="password" id="reEnterPassword" onkeyup="check()" class="form-control form-control-lg signupfield" />
+                  <labe style="color: #FAC300;" class="form-label" for="reEnterPassword">Repeat your password</label>
                 </div>
+                <span id="message" ></span>
 
               {{#if wrongpass}}
                   <p style="color: white;"> Please Check Entred Password </p>

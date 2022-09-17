@@ -4,8 +4,6 @@ const Razorpay = require('razorpay')
 const paypal = require('paypal-rest-sdk')
 const session = require('express-session')
 const moment = require('moment')
-const { resolve } = require('path')
-const { response } = require('express')
 
 
 paypal.configure({
@@ -15,33 +13,35 @@ paypal.configure({
   }); 
 
 var instance = new Razorpay({
-    key_id:'rzp_test_ilbozCbF2qsKox',
-    key_secret:'F0UgFumzdIyVIArgI0MY1fwG',
+    key_id:process.env.RAZOR_ID,
+    key_secret:process.env.RAZOR_SECRET, 
 })
 
 var objectid = require('mongodb').ObjectId
 
 module.exports={
-    doSignup:(userData)=>{
-        
-
-        return new Promise(async(resolve,reject)=>{
-            
-            var userCheck=await db.get().collection('user').findOne({email:userData.email})
-            if(userCheck){
-                let err='Email Already Existed'
-                reject(err)
-            }else{
-                userData.respassword = await bcrypt.hash(userData.repeatpassword,10)
-                userData.password=await bcrypt.hash(userData.password,10)
-                db.get().collection('user').insertOne(userData).then((data)=>{
-                resolve(data)
-           })
-        }
-        
-        })
-    
-    }, 
+//    doSignup:(userData)=>{
+//        
+//
+//        return new Promise(async(resolve,reject)=>{
+//            try{
+//            var userCheck=await db.get().collection('user').findOne({email:userData.email})
+//            if(userCheck){
+//                let err='Email Already Existed'
+//                reject(err)
+//            }else{
+//                userData.repeatpassword = await bcrypt.hash(userData.repeatpassword,10)
+//                userData.password=await bcrypt.hash(userData.password,10)
+//                db.get().collection('user').insertOne(userData).then((data)=>{
+//                resolve(data)
+//           })
+//        }
+//    }catch{
+//        reject()
+//    }
+//  })
+//    
+//    }, 
     doLogin:(userData)=>{
         return new Promise(async(resolve,reject)=>{
             try{ 
@@ -65,6 +65,8 @@ module.exports={
                         err='invalied email or password'
                         reject(err)
                     }
+                }).catch((err)=>{
+                    reject()
                 })
             }
             }else{
@@ -93,38 +95,49 @@ module.exports={
                     price:price,
                     offerprice:offerprice
                 }
-            }).then((response)=>{
+            }).then((response)=>{asdas
                 resolve()
+            }).catch((err)=>{
+                reject(err)
             })
         })
     },
 
     doSignup:(userData)=>{
         return new Promise(async(resolve,reject)=>{
-            
+            try{
             var userCheck=await db.get().collection('user').findOne({email:userData.email})
             if(userCheck){
                 let err='Email Already Existed'
                 reject(err)
             }else{
                 userData.password=await bcrypt.hash(userData.password,10)
+                userData.repeatpassword = await bcrypt.hash(userData.repeatpassword,10)
                 db.get().collection('user').insertOne(userData).then((data)=>{
                 resolve(data)
            })
         }
+    }catch{
+        reject()
+    }
         })
     },
     getAllProducts:()=>{
         return new Promise(async(resolve,reject)=>{
+            try{
             let users=await db.get().collection('product').find().toArray()
             resolve(users)
+            }catch{
+                reject()
+            }
         })
     },
     deleteuser:(userid)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection('product').deleteOne({_id:objectid(userid)}).then(()=>{
                 resolve()
-
+            }).catch(()=>{
+                reject()
             })
         })
     },
@@ -256,6 +269,7 @@ module.exports={
                 subTotal:parseFloat(offer)
             }
             return new Promise(async(resolve,reject)=>{
+                try{
                 let userCart = await db.get().collection('cart').findOne({user:objectid(userId)}) 
                 if(userCart){
                     let proExist = userCart.products.findIndex(product=>product.item==prodId)
@@ -267,6 +281,8 @@ module.exports={
                         }
                         ).then(()=>{
                             resolve()
+                        }).catch(()=>{
+                            reject()
                         })
                     }else{
                     db.get().collection('cart')
@@ -276,6 +292,8 @@ module.exports={
                         }
                     ).then((response)=>{
                         resolve()
+                    }).catch(()=>{
+                        reject()
                     })
                 }
                 }else{
@@ -285,8 +303,13 @@ module.exports={
                     }
                     db.get().collection('cart').insertOne(cartobj).then((response)=>{
                         resolve()
+                    }).catch(()=>{
+                        reject()
                     })
                 }
+            }catch{
+                reject()
+            }
             })
         },
 
@@ -348,6 +371,7 @@ module.exports={
             quantity = parseInt(details.quantity)
     
             return new Promise(async (resolve, reject) => {
+                try{
                 // let userCart = await db.get().collection('cart')
                 //     .updateOne({ _id: objectid(details.cartId), 'products.item': objectid(details.proId) },
                 //         {
@@ -363,6 +387,8 @@ module.exports={
                         ).then((response) => {
                             //    console.log(response)
                             resolve({ removeProduct: true })
+                        }).catch(()=>{
+                            reject()
                         })
                 } else {
                     db.get().collection('cart')
@@ -372,14 +398,18 @@ module.exports={
                             }
                         ).then((response) => {
                             resolve({ change: true })
+                        }).catch(()=>{
+                            reject()
                         })
                 }
-    
+            }catch{
+                reject()
+            }   
         })
         },
         deleteCartProduct:(details)=>{
             return new Promise(async (resolve, reject) => {
-
+                try{
             db.get().collection('cart')
              .updateOne({ _id: objectid(details.cartId) },
                  {
@@ -387,8 +417,12 @@ module.exports={
                  }
              ).then((response) => {
                  resolve({ removeProduct: true })
+             }).catch(()=>{
+                reject()
              })
-
+            }catch{
+                reject()
+            }
             })
         },
 
@@ -441,6 +475,7 @@ module.exports={
 
         placeOrder:(order,userId,products,total)=>{
             return new Promise((resolve,reject)=>{
+                try{
                 let status = order['payment-method'] === 'COD'?'Placed':'Pending'
                 let fdate = moment(new Date).format('YYYY-MM-DD')
                 let orderObj = {
@@ -463,9 +498,15 @@ module.exports={
                 db.get().collection('order').insertOne(orderObj).then((response)=>{
                     db.get().collection('cart').deleteOne({user:objectid(userId)}).then(()=>{
                         resolve(response.insertedId)
+                    }).catch(()=>{
+                        reject()
                     })
+                }).catch(()=>{
+                    reject()
                 })
-
+            }catch{
+                reject()
+            }
             }) 
         },
 
@@ -581,6 +622,7 @@ module.exports={
                 mobile:Address.mobile
             }
             return new Promise(async(resolve,reject)=>{
+                try{
                 db.get().collection('user').updateOne({_id:objectid(user._id)},
                 {
                     $push:{address:address}
@@ -588,19 +630,30 @@ module.exports={
                 ).then(()=>{
                     success='Address Is Added SuccessFully'
                     resolve(success)
+                }).catch(()=>{
+                    reject()
                 })
+            }catch{
+                reject()
+            }
             })
         },
 
         deleteAddress:(details)=>{
             return new Promise((resolve,reject)=>{
+                try{
                 db.get().collection('user').updateOne({_id:objectid(details.userId)},
                 {
                     $pull:{address:{title:details.title}}
                 }
                 ).then((response)=>{
                     resolve({removeProduct:true})
+                }).catch(()=>{
+                    reject()
                 })
+            }catch{
+                reject()
+            }
             })
         },
 
@@ -692,8 +745,11 @@ module.exports={
             }
           }
     ]).toArray().then((mostSaled)=>{
-        
+        if(mostSaled[0]){
         resolve(mostSaled[0].top_selling_products)
+        }else{
+            resolve(0)
+        }
     })
    })
     },
@@ -736,8 +792,11 @@ module.exports={
                     }
                   }
             ]).toArray().then((mostSaled)=>{
-                
+                if(mostSaled[0]){
                 resolve(mostSaled[0].least_selling_products)
+                }else{
+                    resolve(0)
+                }
             })
            })
 
@@ -864,6 +923,7 @@ module.exports={
             subTotal:offer
         }
         return new Promise(async(resolve,reject)=>{
+            try{
             let wishcart = await db.get().collection('wishList').findOne({user:objectid(userId)})
             if (wishcart) {
                 let proExist = wishcart.products.findIndex(product=>product.item==prodId)
@@ -875,6 +935,8 @@ module.exports={
                 $push:{products:proObj}
             }).then((response)=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
             }
             }else{
@@ -884,8 +946,13 @@ module.exports={
                 }
                 db.get().collection('wishList').insertOne(wishcart).then((response)=>{
                     resolve()
+                }).catch(()=>{
+                    reject()
                 })
             }
+        }catch{
+            reject()
+        }
              
         })
     },

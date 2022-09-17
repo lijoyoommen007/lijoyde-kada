@@ -1,12 +1,7 @@
 var db = require('../config/connection')
-const bcrypt=require('bcrypt')
 const Razorpay = require('razorpay')
 const paypal = require('paypal-rest-sdk')
-const session = require('express-session')
 const moment = require('moment')
-const { resolve } = require('path')
-const { response } = require('express')
-const { resolveAny } = require('dns')
 var objectid = require('mongodb').ObjectId
 
 
@@ -38,23 +33,37 @@ module.exports={
                 }
             }).then((response)=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
         })
     },
 
     viewProducts:()=>{
+        
         return new Promise(async(resolve,reject)=>{
+            try{
             let users=await db.get().collection('product').find().toArray()
             resolve(users)
+        }catch{
+            reject()
+        }
         })
+   
 
     },
 
     viewCategory:()=>{
+       
         return new Promise(async(resolve,reject)=>{
+        try{
             let users=await db.get().collection('category').find().toArray()
             resolve(users)
+        }catch{
+            reject()
+        }
         })
+    
 
     },
 
@@ -63,10 +72,13 @@ module.exports={
         let prices = parseInt(productData.price)
         let offerprices = parseInt(productData.offerprice)
         let stocks = parseInt(productData.stock)
+        let category =await db.get().collection('category').findOne({categoryname:productData.category})
+        console.log(category);
        let productInfo={
          productname :  productData.productname,
          description: productData.description,
          category : productData.category,
+         category_Id:category._id,
          price : prices,
          offerprice:offerprices,
          stock : stocks,
@@ -75,25 +87,23 @@ module.exports={
        db.get().collection('product').insertOne(productInfo).then((data)=>{
             callback(data.insertedId)
         }).catch((err)=>{
-            console.log(err)
+            reject()
         })
 
     },
 
     getuserdetails:(User)=>{
         return new Promise(async(resolve,reject)=>{
+             try{
             let user = await db.get().collection('product').findOne({_id:objectid(User)})
             resolve(user);  
+             }catch{
+                reject()
+             }
         })
     },
 
-    viewCategory:()=>{
-        return new Promise(async(resolve,reject)=>{
-            let users=await db.get().collection('category').find().toArray()
-            resolve(users)
-        })
-
-    },
+  
 
     updateuser:(userid,userdetails)=>{
         let stock = parseInt(userdetails.stock)
@@ -111,40 +121,67 @@ module.exports={
                 }
             }).then((response)=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
         })
     },
 
     deleteuser:(userid)=>{
         return new Promise((resolve,reject)=>{
+            try{
             db.get().collection('product').deleteOne({_id:objectid(userid)}).then(()=>{
                 resolve()
-
+            }).catch((err)=>{
+                reject()
             })
+        }catch{
+            reject()
+        }
         })
     },
 
     addCategory:(categoryData)=>{
         return new Promise (async(resolve,reject)=>{
+            try{
+                let allCategory = await db.get().collection('category').findOne({categoryname:categoryData.categoryname})
+                if(allCategory){
+                    err='Category Already Exist'
+                    reject(err)
+                }else{
           let category =  await db.get().collection('category').insertOne(categoryData)
-          resolve(category)       
+          resolve(category) 
+            }      
+            }catch{
+                reject()
+            }
         })
             
     },
 
-    deleteCategory:(userid)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection('category').deleteOne({_id:objectid(userid)}).then(()=>{
+    deleteCategory:(categoryId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let product=await db.get().collection('product').findOne({category_Id:objectid(categoryId)})
+            console.log(product);
+            if(product){
+            err='You cannot delete this category'
+            reject(err)
+            }else{
+            db.get().collection('category').deleteOne({_id:objectid(categoryId)}).then(()=>{
             resolve()
-
             })
+        }
         })
     },
 
     getAllOrders:()=>{
         return new Promise(async(resolve,reject)=>{
+            try{
             let orders = await db.get().collection('order').find().sort({'_id':-1}).toArray()
             resolve(orders);
+            }catch{
+                reject()
+            }
         }) 
     },
 
@@ -183,6 +220,8 @@ module.exports={
             }
           ).then((response)=>{ 
             resolve(response)
+          }).catch(()=>{
+            reject()
           })
         })
     },
@@ -219,6 +258,8 @@ module.exports={
                 }
             }).then(()=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
         })
     },
@@ -231,6 +272,8 @@ module.exports={
                 }
             }).then(()=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
         })
     },
@@ -242,6 +285,8 @@ module.exports={
                 $unset:{offer:""}
             }).then(()=>{
                 resolve()
+            }).catch(()=>{
+                reject()
             })
         })
     },
@@ -332,6 +377,8 @@ module.exports={
                 db.get().collection('user').findOne({email:users.userEmail}).then(async(user)=>{
                 let userOrders = await db.get().collection('order').find({userId:objectid(user._id)}).toArray()
                 resolve(userOrders)
+            }).catch(()=>{
+                reject()
             })
         })
        

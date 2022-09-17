@@ -305,9 +305,24 @@
        money.reverse()
          
         }
-
-    
-  });
+  }).then(()=>{
+     var ctx3 = $("#line-chart").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "line",
+         data: {
+             labels: date,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: money
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  })
   $.ajax({
         url:'/admin/stats',
         method:'get',
@@ -341,17 +356,33 @@
                      break;
                      case 12: month.push("Dec")
                      break;
-           }
-          
+           }          
             monthMoney.push(data.total)
-
          })
          month.reverse()
          monthMoney.reverse()
         }
+  }).then(()=>{
+    var ctx3 = $("#monthly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "line",
+         data: {
+             labels: month,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: monthMoney,
+                 tension: 0.1
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  })
 
-    
-  });
+
    $.ajax({
         url:'/admin/stats2',
         method:'get',
@@ -367,9 +398,27 @@
        wmoney.reverse()
          
         }
+  }).then(()=>{
+    var ctx3 = $("#weekly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: week,
+             datasets: [{
+                 label: "Sales (x: th week)",
+                 fill: false,
+                 backgroundColor: ["#ffb703","#c32f27"],
+                 data: wmoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  })
 
-    
-  });
+
+
      $.ajax({
         url:'/admin/stats3',
         method:'get',
@@ -385,9 +434,27 @@
        dmoney.reverse()
          
         }
+  }).then(()=>{
+    var ctx3 = $("#daily").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: day,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: dmoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  })
 
-    
-  });
+
+
    $.ajax({
         url:'/admin/stats4',
         method:'get',
@@ -403,9 +470,25 @@
        ymoney.reverse()
          
         }
-
     
-  });
+  }).then(()=>{
+    var ctx3 = $("#yearly").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: year,
+             datasets: [{
+                 label: "Sales",
+                 fill: false,
+                 backgroundColor: "#ffb703",
+                 data: ymoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  })
 
     $.ajax({
         url:'/admin/piechart',
@@ -416,40 +499,9 @@
          raz=response.raz
          pal=response.pal
         console.log(cod,raz,pal)
-          //response.forEach(data => {
-        //ymoney.push(data)
-        //});
-       
         }
-
-    
-  });
-
-
-  setTimeout(()=>{
-
- var ctx3 = $("#line-chart").get(0).getContext("2d");
-     var myChart3 = new Chart(ctx3, {
-         type: "line",
-         data: {
-             labels: date,
-             datasets: [{
-                 label: "Sales",
-                 fill: false,
-                 backgroundColor: "#ffb703",
-                 data: money
-             }]
-         },
-         options: {
-             responsive: true
-         }
-     });
-  },300)
-
-
-   setTimeout(()=>{
-
- var ctx3 = $("#pie-chart").get(0).getContext("2d");
+  }).then(()=>{
+    var ctx3 = $("#pie-chart").get(0).getContext("2d");
      var myChart3 = new Chart(ctx3, {
          type: "pie",
          data: {
@@ -468,90 +520,9 @@
              //maintainAspectRatio:false
          }
      });
-  },300)
+  })
 
-  
-      setTimeout(()=>{
-
- var ctx3 = $("#monthly").get(0).getContext("2d");
-     var myChart3 = new Chart(ctx3, {
-         type: "line",
-         data: {
-             labels: month,
-             datasets: [{
-                 label: "Sales",
-                 fill: false,
-                 backgroundColor: "#ffb703",
-                 data: monthMoney,
-                 tension: 0.1
-             }]
-         },
-         options: {
-             responsive: true
-         }
-     });
-  },300)
-    setTimeout(()=>{
-
- var ctx3 = $("#weekly").get(0).getContext("2d");
-     var myChart3 = new Chart(ctx3, {
-         type: "bar",
-         data: {
-             labels: week,
-             datasets: [{
-                 label: "Sales (x: th week)",
-                 fill: false,
-                 backgroundColor: ["#ffb703","#c32f27"],
-                 data: wmoney
-             }]
-         },
-         options: {
-             responsive: true
-         }
-     });
-  },300)
-    setTimeout(()=>{
-
- var ctx3 = $("#daily").get(0).getContext("2d");
-     var myChart3 = new Chart(ctx3, {
-         type: "bar",
-         data: {
-             labels: day,
-             datasets: [{
-                 label: "Sales",
-                 fill: false,
-                 backgroundColor: "#ffb703",
-                 data: dmoney
-             }]
-         },
-         options: {
-             responsive: true
-         }
-     });
-  },300)
-   setTimeout(()=>{
-
- var ctx3 = $("#yearly").get(0).getContext("2d");
-     var myChart3 = new Chart(ctx3, {
-         type: "bar",
-         data: {
-             labels: year,
-             datasets: [{
-                 label: "Sales",
-                 fill: false,
-                 backgroundColor: "#ffb703",
-                 data: ymoney
-             }]
-         },
-         options: {
-             responsive: true
-         }
-     });
-  },300)
-
-
-
-    })
+ })
 
    
    
