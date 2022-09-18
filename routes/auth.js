@@ -1,6 +1,5 @@
 const router = require("express").Router()
 const producthelper = require('../helpers/product-helpers')
-
 const bcryt = require('bcrypt')
 const { response } = require("express")
 require('dotenv').config()
