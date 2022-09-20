@@ -21,7 +21,6 @@ const { handlebars, create } = require("express-hbs")
 
 dotenv.config()
 
-
 app.use(express.json())
 app.use(express.static(path.join(__dirname,'public')))
 

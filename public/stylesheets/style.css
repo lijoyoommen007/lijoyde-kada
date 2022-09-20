@@ -289,3 +289,15 @@ height: 100%;
     transform: rotate(1turn);
   }
 }
+.alert-box {
+  position: fixed;
+  top: 40vh;
+  left: 35vw;
+  text-transform: capitalize;
+  z-index: 10;
+  padding: 3rem;
+  background-color: orange;
+  border-radius: 15px;
+  opacity: 0;
+  transition: all ease-in-out 1s;
+}
