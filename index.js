@@ -17,7 +17,6 @@ const userRoute = require("./routes/user")
 const authRoute = require("./routes/auth")
 const landRouter = require("./routes/landingpage")
 const adminRouter = require("./routes/adminauth")
-const { handlebars, create } = require("express-hbs")
 
 dotenv.config()
 
@@ -81,4 +80,4 @@ app.use(function(err, req, res, next) {
 
 app.listen(process.env.PORT || 5000,()=>{
     console.log("server is running.......")
-})
+})  

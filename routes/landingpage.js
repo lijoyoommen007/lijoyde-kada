@@ -4,9 +4,6 @@ const productHelpers = require('../helpers/product-helpers');
 const router = require('express').Router()
 
 const paypal = require('../helpers/paypal');
-const session = require('express-session');
-const adminHelpers = require('../helpers/adminHelpers');
-let date = new Date
 
 
 const verifyLogin = (req,res,next)=>{
